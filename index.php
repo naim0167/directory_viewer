@@ -1,6 +1,9 @@
 <?php
-$homeDirectory = isset($_GET['directory']);
+require_once 'config.php';
+require_once 'DirectoryHandler.php';
 
+$homeDirectory = $_GET['home_directory'] ?? '';
+$directoryHandler = new DirectoryHandler($homeDirectory);
 
 ?>
 
@@ -14,14 +17,14 @@ $homeDirectory = isset($_GET['directory']);
 <h1>Directory Viewer</h1>
 
 <form action="/">
-    <input type="text" name="directory">
+    <input type="text" name="home_directory">
     <button type="submit" >Set home directory</button>
 </form>
 
 <?php if ($homeDirectory): ?>
 
 <!-- Display the current directory -->
-<p>Current Directory: E:\</p>
+<p>Current Directory: <?php echo $directoryHandler->getAbsolutePath(); ?></p>
 
 <!-- Display the list of files and directories in the current directory -->
 <ul>
