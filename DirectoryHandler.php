@@ -14,4 +14,16 @@ class DirectoryHandler
     {
         return realpath($this->currentDirectory);
     }
+
+    public function scanDirectory(): array
+    {
+        $contents = scandir($this->currentDirectory);
+        $result = [];
+        foreach ($contents as $item) {
+            if ($item !== '.' && $item !== '..') {
+                $result[] = $item;
+            }
+        }
+        return $result;
+    }
 }

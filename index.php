@@ -23,14 +23,12 @@ $directoryHandler = new DirectoryHandler($homeDirectory);
 
 <?php if ($homeDirectory): ?>
 
-<!-- Display the current directory -->
 <p>Current Directory: <?php echo $directoryHandler->getAbsolutePath(); ?></p>
 
-<!-- Display the list of files and directories in the current directory -->
 <ul>
-    <li>
-        <a href="#">sub directory 1</a>
-    </li>
+    <?php foreach ($directoryHandler->scanDirectory() as $item) : ?>
+        <li><?php echo htmlspecialchars($item); ?></li>
+    <?php endforeach; ?>
 </ul>
 
 <a href="?back">Back to Start Directory</a>
