@@ -1,3 +1,9 @@
+<?php
+$homeDirectory = isset($_GET['directory']);
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,10 +13,12 @@
 
 <h1>Directory Viewer</h1>
 
-<form action="GET">
-    <input type="text" name="home_directory">
+<form action="/">
+    <input type="text" name="directory">
     <button type="submit" >Set home directory</button>
 </form>
+
+<?php if ($homeDirectory): ?>
 
 <!-- Display the current directory -->
 <p>Current Directory: E:\</p>
@@ -23,6 +31,8 @@
 </ul>
 
 <a href="?back">Back to Start Directory</a>
+
+<?php endif; ?>
 
 </body>
 </html>
