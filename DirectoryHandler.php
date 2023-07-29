@@ -7,7 +7,7 @@ class DirectoryHandler
 
     public function __construct(private string $startDirectory)
     {
-        $this->currentDirectory = $this->startDirectory;
+        $this->currentDirectory = $_SESSION['current_directory'] ?? $this->startDirectory;
         $_SESSION['home_directory'] = $this->startDirectory;
     }
 
@@ -28,21 +28,16 @@ class DirectoryHandler
         return $result;
     }
 
-    public function handleNavigation(): void
+    public function navigateTo(string $directory): void
     {
-        if (isset($_GET['directory'])) {
-            $selectedDirectory = $_GET['directory'];
-            $this->currentDirectory = realpath($this->currentDirectory . DIRECTORY_SEPARATOR . $selectedDirectory);
-            $_SESSION['current_directory'] = $this->currentDirectory;
-        }
+        $this->currentDirectory = realpath($this->currentDirectory . DIRECTORY_SEPARATOR . $directory);
+        $_SESSION['current_directory'] = $this->currentDirectory;
     }
 
     public function back(): void
     {
-        if (isset($_GET['back'])) {
-            $this->currentDirectory = $this->startDirectory;
-            $_SESSION['current_directory'] = $this->currentDirectory;
-        }
+        $this->currentDirectory = $this->startDirectory;
+        $_SESSION['current_directory'] = $this->currentDirectory;
     }
 
 }

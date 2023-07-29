@@ -8,8 +8,14 @@ if (isset($_GET['home_directory'])) {
 }
 
 $directoryHandler = new DirectoryHandler($homeDirectory);
-$directoryHandler->handleNavigation();
-$directoryHandler->back();
+
+if (isset($_GET['directory'])) {
+    $directoryHandler->navigateTo($_GET['directory']);
+}
+
+if (isset($_GET['back'])) {
+    $directoryHandler->back();
+}
 ?>
 
 <!DOCTYPE html>
