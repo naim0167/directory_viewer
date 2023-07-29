@@ -2,9 +2,14 @@
 require_once 'config.php';
 require_once 'DirectoryHandler.php';
 
-$homeDirectory = $_GET['home_directory'] ?? '';
-$directoryHandler = new DirectoryHandler($homeDirectory);
+$homeDirectory = $_SESSION['home_directory'] ?? '';
+if (isset($_GET['home_directory'])) {
+    $homeDirectory =  $_GET['home_directory'];
+}
 
+$directoryHandler = new DirectoryHandler($homeDirectory);
+$directoryHandler->handleNavigation();
+$directoryHandler->back();
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +32,13 @@ $directoryHandler = new DirectoryHandler($homeDirectory);
 
 <ul>
     <?php foreach ($directoryHandler->scanDirectory() as $item) : ?>
-        <li><?php echo htmlspecialchars($item); ?></li>
+        <?php if (is_dir($directoryHandler->getAbsolutePath() . DIRECTORY_SEPARATOR . $item)) : ?>
+            <li>
+                <a href="?directory=<?php echo urlencode($item); ?>"><?php echo htmlspecialchars($item); ?></a>
+            </li>
+        <?php else : ?>
+            <li><?php echo htmlspecialchars($item); ?></li>
+        <?php endif; ?>
     <?php endforeach; ?>
 </ul>
 

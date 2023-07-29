@@ -7,7 +7,8 @@ class DirectoryHandler
 
     public function __construct(private string $startDirectory)
     {
-        $this->currentDirectory = $_SESSION['current_directory'] ?? $this->startDirectory;
+        $this->currentDirectory = $this->startDirectory;
+        $_SESSION['home_directory'] = $this->startDirectory;
     }
 
     public function getAbsolutePath(): string
@@ -26,4 +27,22 @@ class DirectoryHandler
         }
         return $result;
     }
+
+    public function handleNavigation(): void
+    {
+        if (isset($_GET['directory'])) {
+            $selectedDirectory = $_GET['directory'];
+            $this->currentDirectory = realpath($this->currentDirectory . DIRECTORY_SEPARATOR . $selectedDirectory);
+            $_SESSION['current_directory'] = $this->currentDirectory;
+        }
+    }
+
+    public function back(): void
+    {
+        if (isset($_GET['back'])) {
+            $this->currentDirectory = $this->startDirectory;
+            $_SESSION['current_directory'] = $this->currentDirectory;
+        }
+    }
+
 }
