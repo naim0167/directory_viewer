@@ -14,7 +14,11 @@ if (isset($_GET['directory'])) {
 }
 
 if (isset($_GET['back'])) {
-    $directoryHandler->back();
+    $directoryHandler->backToHome();
+}
+
+if (isset($_GET['previous'])) {
+    $directoryHandler->previous();
 }
 ?>
 
@@ -48,7 +52,7 @@ if (isset($_GET['back'])) {
     <?php endforeach; ?>
 </ul>
 
-<a href="?back">Back to Start Directory</a>
+<a href="?previous">Previous Directory</a> <br> <a href="?back">Back to Start Directory</a>
 
 <?php endif; ?>
 

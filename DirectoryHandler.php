@@ -30,14 +30,31 @@ class DirectoryHandler
 
     public function navigateTo(string $directory): void
     {
-        $this->currentDirectory = realpath($this->currentDirectory . DIRECTORY_SEPARATOR . $directory);
-        $_SESSION['current_directory'] = $this->currentDirectory;
+        $dirArr = explode(DIRECTORY_SEPARATOR, $this->currentDirectory);
+        $currentFolder = end($dirArr);
+        if ($currentFolder !== $directory) {
+            $this->currentDirectory = realpath($this->currentDirectory . DIRECTORY_SEPARATOR . $directory);
+            $_SESSION['current_directory'] = $this->currentDirectory;
+        }
     }
 
-    public function back(): void
+    public function backToHome(): void
     {
         $this->currentDirectory = $this->startDirectory;
         $_SESSION['current_directory'] = $this->currentDirectory;
+    }
+
+    public function previous(): void
+    {
+        if ($this->currentDirectory === $this->startDirectory) {
+            header("Location: /");
+        }
+
+        $dir = explode(DIRECTORY_SEPARATOR, $this->currentDirectory);
+        array_pop($dir);
+        $this->currentDirectory = implode(DIRECTORY_SEPARATOR, $dir);
+        $_SESSION['current_directory'] = $this->currentDirectory;
+        header("Location: /");
     }
 
 }
