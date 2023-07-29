@@ -3,7 +3,7 @@ require_once 'config.php';
 require_once 'DirectoryHandler.php';
 
 $homeDirectory = $_SESSION['home_directory'] ?? '';
-if (isset($_GET['home_directory'])) {
+if (isset($_GET['home_directory']) && is_dir($_GET['home_directory'])) {
     $homeDirectory =  $_GET['home_directory'];
 }
 
